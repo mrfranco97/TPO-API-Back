@@ -35,11 +35,11 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     public void eliminarProducto(Long id){
-
+        productoRepository.deleteById(id);
     }
 
-    public void modificarProducto(Producto modificacion){
-
+    public Producto modificarProducto(Producto modificacion){
+        return productoRepository.save(modificacion);
     }
 
     public Page<Producto> getProductosDestacados(){

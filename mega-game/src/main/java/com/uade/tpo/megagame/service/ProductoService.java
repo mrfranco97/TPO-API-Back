@@ -14,7 +14,7 @@ public interface ProductoService {
 
     public void eliminarProducto(Long id);
 
-    public void modificarProducto(Producto modificacion);
+    public Producto modificarProducto(Producto modificacion);
 
     public Page<Producto> getProductosDestacados();
 
