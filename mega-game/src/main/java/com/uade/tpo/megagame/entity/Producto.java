@@ -10,6 +10,13 @@ import lombok.Data;
 @Data
 @Entity
 public class Producto {
+        public Producto(){
+    }
+
+    public Producto(String nombre){
+        this.nombre=nombre;
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,11 +24,6 @@ public class Producto {
     @Column
     private String nombre;
 
-    public Producto(){
-    }
 
-    public Producto(String nombre){
-        this.nombre=nombre;
-    }
 
 }
