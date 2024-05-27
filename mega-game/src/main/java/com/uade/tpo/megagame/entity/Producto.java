@@ -1,5 +1,7 @@
 package com.uade.tpo.megagame.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,11 +21,27 @@ public class Producto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_producto;
 
     @Column
     private String nombre;
+    
+    @Column
+    private String descripcion;
 
+    @Column
+    private String imagen;
 
+    @Column
+    private float precio;
+
+    @Column
+    private Date lanzamiento; //de este no estoy seguro que sea asi
+
+    @Column
+    private String desarrollador;
+
+    @Column
+    private int flag_destacar;
 
 }
