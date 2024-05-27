@@ -1,6 +1,7 @@
 package com.uade.tpo.megagame.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class ProductosController {
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/destacados")
+    public ResponseEntity<List<Producto>> getProductosDestacados() {
+        List<Producto> result = productoService.getProductosDestacados();
+        if (!result.isEmpty())
+            return ResponseEntity.ok(result);
+        else{
+            return ResponseEntity.noContent().build();
+        }    
     }
 
     @PostMapping

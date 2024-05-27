@@ -51,8 +51,7 @@ public class VentasController {
         }
     }
 
-
-    /**
+        /**
      * Ejemplo post
      * {
         "idCliente": 1,

@@ -1,5 +1,7 @@
 package com.uade.tpo.megagame.service;
 import java.util.Optional;
+
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import com.uade.tpo.megagame.entity.Producto;
@@ -16,7 +18,7 @@ public interface ProductoService {
 
     public Producto modificarProducto(Producto modificacion);
 
-    public Page<Producto> getProductosDestacados();
+    public List<Producto> getProductosDestacados();
 
 
 }

@@ -16,6 +16,7 @@ public class Producto {
 
     public Producto(String nombre){
         this.nombre=nombre;
+        this.destacar=false;
     }
     
     @Id
@@ -24,5 +25,8 @@ public class Producto {
 
     @Column
     private String nombre;
+
+    @Column
+    private boolean destacar;
 
 }
