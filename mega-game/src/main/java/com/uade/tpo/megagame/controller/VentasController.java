@@ -51,7 +51,6 @@ public class VentasController {
         }
     }
 
-
     /**
      * Ejemplo post
      * {
@@ -76,7 +75,7 @@ public class VentasController {
                 Producto producto = productoOptional.get();
                 VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
                 detalle.setProducto(producto);
-                detalle.setVenta(venta);
+                //detalle.setVenta(venta);
                 venta.getDetalle().add(detalle);
             }else {
                 return ResponseEntity.badRequest().body(null);

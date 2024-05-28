@@ -39,9 +39,10 @@ public class VentaDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+/* */
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
     @ManyToOne
@@ -53,5 +54,4 @@ public class VentaDetalle {
 
     @Column(name = "fecha_insert", nullable = false)
     private LocalDate fecha_insert;
-
 }

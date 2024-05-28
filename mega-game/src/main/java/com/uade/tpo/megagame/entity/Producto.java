@@ -26,7 +26,23 @@ public class Producto {
 
     @Column
     private String nombre;
+    
+    @Column
+    private String descripcion;
 
+    @Column
+    private String imagen;
 
+    @Column
+    private float precio;
+
+    @Column
+    private Date lanzamiento; //de este no estoy seguro que sea asi
+
+    @Column
+    private String desarrollador;
+
+    @Column
+    private int flag_destacar;
 
 }
