@@ -2,15 +2,24 @@ package com.uade.tpo.megagame.entity.dto;
 
 import java.util.List;
 
+
 public class VentaDTO {
-    private Long idCliente;
+    private Long id_usuario;
     private List<VentaDetalleDTO> detalles;
-    
-    public List<VentaDetalleDTO> getDetalles() {
-        return this.detalles;
+
+    public Long getId_usuario() {
+        return id_usuario;
     }
 
-    public Long getIdCliente() {
-        return this.idCliente;
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public List<VentaDetalleDTO> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<VentaDetalleDTO> detalles) {
+        this.detalles = detalles;
     }
 }

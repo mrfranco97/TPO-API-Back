@@ -1,27 +1,32 @@
 package com.uade.tpo.megagame.entity;
 
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-@Entity
 @Data
-public class RelProductoTipo {
+@Entity
+public class Compras {
+    public Compras() {
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idRelPt;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_producto")
-    private Producto producto;
+    @Column
+    private int id_usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tipo")
-    private Tipo tipo;
+    @Column
+    private Date fecha;
+
+    @Column
+    private int flag_estado;
+
 }

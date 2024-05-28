@@ -3,6 +3,7 @@ package com.uade.tpo.megagame.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,8 +24,7 @@ public class Producto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProducto;
-
+    private Long id;
     @Column
     private String nombre;
     @Column
@@ -36,21 +36,15 @@ public class Producto {
     @Column
     private LocalDate lanzamiento;
     @Column
-    private Boolean flagDestacar;
-
+    private Boolean flag_destacar;
     @Column
     private String desarrollador;
-
-    @OneToMany(mappedBy = "producto")
-    private List<RelProductoCompra> compras;
-
-    @OneToMany(mappedBy = "producto")
-    private List<RelProductoTipo> tipos;
-
-    @OneToMany(mappedBy = "producto")
-    private List<RelProductoGenero> generos;
-
-    @OneToMany(mappedBy = "producto")
-    private List<RelProductoPlataforma> plataformas;
-
+    //@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    //private List<VentaDetalle> compras;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<ProductoTipo> tipos;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<ProductoGenero> generos;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<ProductoPlataforma> plataformas;
 }

@@ -16,13 +16,13 @@ import lombok.Data;
 public class Tipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tipo;
+    private Long id;
 
     @Column
     private String nombre;
 
     @OneToMany(mappedBy = "tipo")
-    private List<RelProductoTipo> productos;
+    private List<ProductoTipo> productos;
 }
 
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VentaRepository extends JpaRepository<Venta, Long> {
-    @Query(value = "SELECT v FROM Venta v WHERE v.idCliente = ?1")
-    List<Venta> findByIdCliente(Long idCliente);
+    @Query(value = "SELECT v FROM Venta v WHERE v.usuario = ?1")
+    List<Venta> findByIdUsuario(Long usuario);
 }
-

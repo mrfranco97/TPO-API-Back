@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
-import com.uade.tpo.megagame.service.ProductoService;
+import com.uade.tpo.megagame.interfaces.ProductoInterface;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("catalogo")
 public class ProductosController {
     @Autowired
-    private ProductoService productoService;
+    private ProductoInterface productoService;
 
     @GetMapping
     public ResponseEntity<Page<Producto>> getProductos(

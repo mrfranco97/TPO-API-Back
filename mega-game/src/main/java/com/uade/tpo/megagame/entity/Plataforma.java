@@ -16,11 +16,11 @@ import lombok.Data;
 public class Plataforma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_plataforma;
+    private Long id;
 
     @Column
     private String nombre;
 
     @OneToMany(mappedBy = "plataforma")
-    private List<RelProductoPlataforma> productos;
+    private List<ProductoPlataforma> productos;
 }
