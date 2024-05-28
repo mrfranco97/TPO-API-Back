@@ -7,26 +7,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import lombok.Data;
 
 @Data
 @Entity
-public class Producto {
-        public Producto(){
+public class Compras {
+    public Compras() {
+
     }
 
-    public Producto(String nombre){
-        this.nombre=nombre;
-    }
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_producto;
+    private Long id_compra;
 
     @Column
-    private String nombre;
+    private int id_usuario;
 
+    @Column
+    private Date fecha;
 
+    @Column
+    private int flag_estado;
 
 }

@@ -1,32 +1,46 @@
 package com.uade.tpo.megagame.entity;
 
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import lombok.Data;
 
 @Data
 @Entity
-public class Producto {
-        public Producto(){
+public class Usuario {
+    public Usuario(){
     }
 
-    public Producto(String nombre){
+    public Usuario(String nombre){
         this.nombre=nombre;
     }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_producto;
+    private Long id_usuario;
 
     @Column
     private String nombre;
 
+    @Column
+    private int telefono;
 
+    @Column
+    private String mail;
 
+    @Column
+    private String login;
+
+    @Column
+    private String pass;
+
+    @Column
+    private String rol;
+
+    @Column
+    private int flag_estado;
+    
 }
