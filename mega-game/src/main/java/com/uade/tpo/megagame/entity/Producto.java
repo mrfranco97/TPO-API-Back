@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +16,7 @@ public class Producto {
 
     public Producto(String nombre){
         this.nombre=nombre;
+        this.destacar=false;
     }
     
     @Id
@@ -24,6 +26,7 @@ public class Producto {
     @Column
     private String nombre;
 
-
+    @Column
+    private boolean destacar;
 
 }

@@ -42,8 +42,8 @@ public class ProductoServiceImpl implements ProductoService {
         return productoRepository.save(modificacion);
     }
 
-    public Page<Producto> getProductosDestacados(){
-        return null;
+    public List<Producto> getProductosDestacados(){
+        return productoRepository.findDestacado();
     }
 
 }
