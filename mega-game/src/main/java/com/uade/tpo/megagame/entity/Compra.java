@@ -1,5 +1,8 @@
 package com.uade.tpo.megagame.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,27 +10,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 
 @Entity
 @Data
-public class RelProductoCompra {
+public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_rel_pc;
+    private Long idCompras;
 
     @ManyToOne
-    @JoinColumn(name = "id_compra")
-    private Compra compra;
-
-    @ManyToOne
-    @JoinColumn(name = "id_producto")
-    private Producto producto;
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
     @Column
-    private Float precioProducto;
+    private LocalDate fecha;
     @Column
-    private Integer cantidadProducto;
+    private Boolean flagEstado;
+
+    @OneToMany(mappedBy = "compra")
+    private List<RelProductoCompra> productos;
     
 }

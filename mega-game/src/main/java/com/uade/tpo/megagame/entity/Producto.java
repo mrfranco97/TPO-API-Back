@@ -1,13 +1,14 @@
 package com.uade.tpo.megagame.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -22,27 +23,34 @@ public class Producto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_producto;
+    private Long idProducto;
 
     @Column
     private String nombre;
-    
     @Column
     private String descripcion;
-
     @Column
     private String imagen;
-
     @Column
-    private float precio;
-
+    private Double precio;
     @Column
-    private Date lanzamiento; //de este no estoy seguro que sea asi
+    private LocalDate lanzamiento;
+    @Column
+    private Boolean flagDestacar;
 
     @Column
     private String desarrollador;
 
-    @Column
-    private int flag_destacar;
+    @OneToMany(mappedBy = "producto")
+    private List<RelProductoCompra> compras;
+
+    @OneToMany(mappedBy = "producto")
+    private List<RelProductoTipo> tipos;
+
+    @OneToMany(mappedBy = "producto")
+    private List<RelProductoGenero> generos;
+
+    @OneToMany(mappedBy = "producto")
+    private List<RelProductoPlataforma> plataformas;
 
 }

@@ -1,8 +1,8 @@
 package com.uade.tpo.megagame.entity.dto;
 
-import java.util.Date;
-
 import lombok.Data;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class ProductoDTO {
@@ -10,8 +10,13 @@ public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private String imagen;
-    private float precio;
-    private Date lanzamiento; //de este no estoy seguro que sea asi
+    private Double precio;
+    private LocalDate lanzamiento;
+    private Boolean flag_destacar;
     private String desarrollador;
-    private int flag_destacar;
+    private List<Long> compras_ids;
+    private List<Long> tiposIds;
+    private List<Long> generos_ids;
+    private List<Long> plataformas_ids;
 }
+

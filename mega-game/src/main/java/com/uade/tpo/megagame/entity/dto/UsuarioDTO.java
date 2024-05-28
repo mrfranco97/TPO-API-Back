@@ -1,19 +1,16 @@
 package com.uade.tpo.megagame.entity.dto;
 
-
 import lombok.Data;
 
 @Data
+
 public class UsuarioDTO {
-    private Long id_usuario;
+    private Long idUsuario;
     private String nombre;
-    private int telefono;
+    private String telefono;
     private String mail;
     private String login;
-    private String pass; //este hay qeu ver si despues lo codificamos con JWT
-    private String rol;
-    private int flag_estado;
+    private String pass;
+    private String idRol;
+    private Boolean flag_estado;
 }
-
-
-

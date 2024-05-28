@@ -1,24 +1,26 @@
 package com.uade.tpo.megagame.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-@Data
+
 @Entity
+@Data
 public class Plataforma {
-    public Plataforma(){
-
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_plataforma;
-   
+
     @Column
     private String nombre;
-    
+
+    @OneToMany(mappedBy = "plataforma")
+    private List<RelProductoPlataforma> productos;
 }
