@@ -1,7 +1,6 @@
 package com.uade.tpo.megagame.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
-import com.uade.tpo.megagame.service.ProductoService;
+import com.uade.tpo.megagame.interfaces.ProductoInterface;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("catalogo")
 public class ProductosController {
     @Autowired
-    private ProductoService productoService;
+    private ProductoInterface productoService;
 
     @GetMapping
     public ResponseEntity<Page<Producto>> getProductos(
@@ -47,20 +48,18 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/destacados")
-    public ResponseEntity<List<Producto>> getProductosDestacados() {
-        List<Producto> result = productoService.getProductosDestacados();
-        if (!result.isEmpty())
-            return ResponseEntity.ok(result);
-        else{
-            return ResponseEntity.noContent().build();
-        }    
-    }
-
     @PostMapping
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {
-        Producto result = productoService.createProducto(productodto.getNombre());
+        Producto result = productoService.createProducto(
+            productodto.getNombre(),
+            productodto.getDescripcion(),
+            productodto.getImagen(),
+            productodto.getPrecio(),
+            productodto.getLanzamiento(),
+            productodto.getDesarrollador(),
+            productodto.getTipo(),
+            productodto.getStock());
         return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
     }
 
@@ -76,11 +75,12 @@ public class ProductosController {
         }
     }
 
+/* 
     @PutMapping("/{productoId}")
     public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
-            Producto modificado = new Producto(modificacion.getNombre());
+            Producto modificado = new Producto(modificacion.getNombre(),modificacion.getDescripcion(),modificacion.getImagen(),modificacion.getPrecio(),modificacion.getLanzamiento(),modificacion.getDesarrollador(),modificacion.getTipo(),modificacion.getStock());
             modificado.setId(productoId);
             return ResponseEntity.ok(productoService.modificarProducto(modificado));
         }
@@ -88,5 +88,6 @@ public class ProductosController {
             return ResponseEntity.noContent().build();
         }
     }
+*/
 
 }
