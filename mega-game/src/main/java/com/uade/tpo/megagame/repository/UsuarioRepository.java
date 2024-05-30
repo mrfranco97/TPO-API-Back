@@ -9,5 +9,5 @@ import com.uade.tpo.megagame.entity.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-        Optional<Usuario> findByEmail(String mail);
+        Optional<Usuario> findBymail(String mail);
 }
