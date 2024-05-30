@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +51,15 @@ public class ProductosController {
     @PostMapping
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {
-        Producto result = productoService.createProducto(productodto.getNombre());
+        Producto result = productoService.createProducto(
+            productodto.getNombre(),
+            productodto.getDescripcion(),
+            productodto.getImagen(),
+            productodto.getPrecio(),
+            productodto.getLanzamiento(),
+            productodto.getDesarrollador(),
+            productodto.getTipo(),
+            productodto.getStock());
         return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
     }
 
@@ -66,11 +75,12 @@ public class ProductosController {
         }
     }
 
+/* 
     @PutMapping("/{productoId}")
     public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
-            Producto modificado = new Producto(modificacion.getNombre());
+            Producto modificado = new Producto(modificacion.getNombre(),modificacion.getDescripcion(),modificacion.getImagen(),modificacion.getPrecio(),modificacion.getLanzamiento(),modificacion.getDesarrollador(),modificacion.getTipo(),modificacion.getStock());
             modificado.setId(productoId);
             return ResponseEntity.ok(productoService.modificarProducto(modificado));
         }
@@ -78,5 +88,6 @@ public class ProductosController {
             return ResponseEntity.noContent().build();
         }
     }
+*/
 
 }
