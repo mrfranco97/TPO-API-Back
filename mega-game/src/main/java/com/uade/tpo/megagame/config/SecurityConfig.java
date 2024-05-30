@@ -22,23 +22,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-        private final JwtAuthenticationFilter jwtAuthFilter;
-        private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .csrf(AbstractHttpConfigurer::disable)
-                                .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
-                                                .requestMatchers("/error/**").permitAll()
-                                                .requestMatchers("/megagame/**").hasAnyAuthority(Role.USER.name())
-                                                .anyRequest()
-                                                .authenticated())
-                                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                                .authenticationProvider(authenticationProvider)
-                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req ->
+                req
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/error/**").permitAll()
+                    // Requiere el rol USER para todas las solicitudes a /catalogo/**
+                    .requestMatchers("/catalogo/**").hasAnyAuthority(Role.USER.name())
+                    // Requiere el rol ADMIN para todas las solicitudes a /usuarios/**
+                    .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
+                    // Requiere el rol ADMIN para todas las solicitudes a /ventas/**
+                    .requestMatchers("/ventas/**").hasAnyAuthority(Role.ADMIN.name())
+                    // Todas las demás solicitudes requieren autenticación
+                    .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-                return http.build();
-        }
+        return http.build();
+    }
 }
-

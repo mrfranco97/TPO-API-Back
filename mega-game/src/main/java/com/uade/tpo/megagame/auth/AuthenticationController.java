@@ -11,7 +11,7 @@ import com.uade.tpo.megagame.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auth") //Son las URIS que van a tener acceso a todo
 @RequiredArgsConstructor
 public class AuthenticationController {
 

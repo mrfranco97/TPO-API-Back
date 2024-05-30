@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.megagame.entity.Producto;
+import com.uade.tpo.megagame.entity.Role;
 import com.uade.tpo.megagame.entity.Usuario;
 import com.uade.tpo.megagame.entity.Venta;
 import com.uade.tpo.megagame.entity.VentaDetalle;
@@ -36,88 +39,66 @@ public class VentasController {
     @Autowired
     private UsuarioInterface usuarioService;
 
+    // Este endpoint requiere el rol ADMIN
     @GetMapping()
-    public ResponseEntity<List<Venta>> getAll() {
-        List<Venta> result = ventaService.findAll();
-        if (!result.isEmpty()) {
-            return ResponseEntity.ok(result);
+    public ResponseEntity<List<Venta>> getAll(Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(Role.ADMIN.name()))) {
+            List<Venta> result = ventaService.findAll();
+            if (!result.isEmpty()) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
+    // Este endpoint requiere el rol USER
     @GetMapping("/ByIdUsuario/{idCliente}")
-    public ResponseEntity<List<Venta>> findByIdUsuario(@PathVariable Long idCliente) {
-        List<Venta> result = ventaService.findByIdUsuario(idCliente);
-        if (!result.isEmpty()) {
-            return ResponseEntity.ok(result);
+    public ResponseEntity<List<Venta>> findByIdUsuario(@PathVariable Long idCliente, Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(Role.USER.name()))) {
+            List<Venta> result = ventaService.findByIdUsuario(idCliente);
+            if (!result.isEmpty()) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
-    /**
-     * Ejemplo post
-     * {
-        "idCliente": 1,
-        "detalles": [
-            {
-                "productoId": 1,
-                "cantidad": 5
-            },
-            {
-                "productoId": 2,
-                "cantidad": 5
-            }
-        ]
-     */
-    
-     /* 
-     @PostMapping
-    public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
-        Venta venta = new Venta();
-        for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
-            Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getProductoId());
-            if (productoOptional.isPresent()) {
-                Producto producto = productoOptional.get();
-                VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
-                detalle.setProducto(producto);
-                //detalle.setVenta(venta);
-                venta.getDetalle().add(detalle);
-            }else {
-                return ResponseEntity.badRequest().body(null);
-            }
-        }
-        Venta savedVenta = ventaService.save(venta);
-        return ResponseEntity.ok(savedVenta);
-    }
-
-*/
+    // Este endpoint requiere el rol ADMIN
     @PostMapping
-    public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
-        Venta venta = new Venta();
-        
-        Optional<Usuario> usuarioOptional = usuarioService.findById(ventaDTO.getId_usuario());
-        if (usuarioOptional.isPresent()) {
-            venta.setUsuario(usuarioOptional.get());
-        } else {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
-            Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
-            if (productoOptional.isPresent()) {
-                Producto producto = productoOptional.get();
-                VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
-                detalle.setProducto(producto);
-                detalle.setVenta(venta);
-                venta.getDetalle().add(detalle);
+    public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO, Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(Role.ADMIN.name()))) {
+            Venta venta = new Venta();
+            
+            Optional<Usuario> usuarioOptional = usuarioService.findById(ventaDTO.getId_usuario());
+            if (usuarioOptional.isPresent()) {
+                venta.setUsuario(usuarioOptional.get());
             } else {
                 return ResponseEntity.badRequest().body(null);
             }
-        }
 
-        Venta savedVenta = ventaService.save(venta);
-        return ResponseEntity.ok(savedVenta);
+            for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
+                Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
+                if (productoOptional.isPresent()) {
+                    Producto producto = productoOptional.get();
+                    VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
+                    detalle.setProducto(producto);
+                    detalle.setVenta(venta);
+                    venta.getDetalle().add(detalle);
+                } else {
+                    return ResponseEntity.badRequest().body(null);
+                }
+            }
+
+            Venta savedVenta = ventaService.save(venta);
+            return ResponseEntity.ok(savedVenta);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }
