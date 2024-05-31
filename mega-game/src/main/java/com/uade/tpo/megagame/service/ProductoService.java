@@ -1,8 +1,6 @@
 package com.uade.tpo.megagame.service;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale.Category;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
 import com.uade.tpo.megagame.repository.ProductoRepository;
 import com.uade.tpo.megagame.repository.TipoRepository;
-
-import jakarta.persistence.EntityManager;
 
 @Service
 public class ProductoService implements ProductoInterface {

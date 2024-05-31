@@ -2,7 +2,6 @@ package com.uade.tpo.megagame.repository;
 import com.uade.tpo.megagame.entity.Venta;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

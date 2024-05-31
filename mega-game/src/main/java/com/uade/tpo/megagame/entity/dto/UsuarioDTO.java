@@ -12,7 +12,6 @@ public class UsuarioDTO {
     private String mail;
     private String login;
     private String pass;
-    private String idRol;
     private Role role;
     private Boolean flag_estado;
 }
