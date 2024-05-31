@@ -1,8 +1,6 @@
 package com.uade.tpo.megagame.controller;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.Usuario;
 import com.uade.tpo.megagame.entity.Venta;
-import com.uade.tpo.megagame.entity.VentaDetalle;
 import com.uade.tpo.megagame.entity.dto.VentaDTO;
 import com.uade.tpo.megagame.entity.dto.VentaDetalleDTO;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
@@ -25,7 +22,6 @@ import com.uade.tpo.megagame.interfaces.VentaInterface;
 
 
 @RestController
-@RequestMapping("ventas")
 public class VentasController {
     @Autowired
     private VentaInterface ventaService;
@@ -36,7 +32,7 @@ public class VentasController {
     @Autowired
     private UsuarioInterface usuarioService;
 
-    @GetMapping()
+    @GetMapping("/ventas")
     public ResponseEntity<List<Venta>> getAll() {
         List<Venta> result = ventaService.findAll();
         if (!result.isEmpty()) {
@@ -46,7 +42,7 @@ public class VentasController {
         }
     }
 
-    @GetMapping("/ByIdUsuario/{idCliente}")
+    @GetMapping("/ventas/ByIdUsuario/{idCliente}")
     public ResponseEntity<List<Venta>> findByIdUsuario(@PathVariable Long idCliente) {
         List<Venta> result = ventaService.findByIdUsuario(idCliente);
         if (!result.isEmpty()) {
@@ -72,8 +68,8 @@ public class VentasController {
         ]
      */
     
-     /* 
-     @PostMapping
+/* 
+@PostMapping
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
         Venta venta = new Venta();
         for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
@@ -93,31 +89,14 @@ public class VentasController {
     }
 
 */
-    @PostMapping
+    @PostMapping("/ventas")
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
-        Venta venta = new Venta();
-        
-        Optional<Usuario> usuarioOptional = usuarioService.findById(ventaDTO.getId_usuario());
-        if (usuarioOptional.isPresent()) {
-            venta.setUsuario(usuarioOptional.get());
-        } else {
-            return ResponseEntity.badRequest().body(null);
+        Venta savedVenta = ventaService.save(ventaDTO);
+
+        if (savedVenta == null){
+            return ResponseEntity.noContent().build();
         }
 
-        for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
-            Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
-            if (productoOptional.isPresent()) {
-                Producto producto = productoOptional.get();
-                VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
-                detalle.setProducto(producto);
-                detalle.setVenta(venta);
-                venta.getDetalle().add(detalle);
-            } else {
-                return ResponseEntity.badRequest().body(null);
-            }
-        }
-
-        Venta savedVenta = ventaService.save(venta);
         return ResponseEntity.ok(savedVenta);
     }
 }

@@ -12,26 +12,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.megagame.entity.Producto;
+import com.uade.tpo.megagame.entity.Tipo;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
-
-import org.springframework.web.bind.annotation.PutMapping;
-
+import com.uade.tpo.megagame.repository.TipoRepository;
 
 @RestController
-@RequestMapping("catalogo")
 public class ProductosController {
     @Autowired
     private ProductoInterface productoService;
 
-    @GetMapping
+    @Autowired
+    private TipoRepository tipoRepository;
+
+    @GetMapping("/catalogo")
     public ResponseEntity<Page<Producto>> getProductos(
         @RequestParam(required = false) Integer page,
         @RequestParam(required = false) Integer size) {
@@ -40,7 +42,7 @@ public class ProductosController {
         return ResponseEntity.ok(productoService.getProductos(PageRequest.of(page, size)));
     }
 
-    @GetMapping("/{productoId}")
+    @GetMapping("/catalogo/{productoId}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Long productoId) {
         Optional<Producto> result = productoService.getProductoById(productoId);
         if (result.isPresent())
@@ -48,7 +50,7 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping("/abm")
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {
         Producto result = productoService.createProducto(
@@ -63,7 +65,7 @@ public class ProductosController {
         return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
     }
 
-    @DeleteMapping("/{productoId}")
+    @DeleteMapping("/abm/{productoId}")
     public ResponseEntity<Producto> deleteProducto(@PathVariable Long productoId){
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
@@ -75,19 +77,30 @@ public class ProductosController {
         }
     }
 
-/* 
-    @PutMapping("/{productoId}")
-    public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
-        Optional<Producto>result=productoService.getProductoById(productoId);
-        if(result.isPresent()){
-            Producto modificado = new Producto(modificacion.getNombre(),modificacion.getDescripcion(),modificacion.getImagen(),modificacion.getPrecio(),modificacion.getLanzamiento(),modificacion.getDesarrollador(),modificacion.getTipo(),modificacion.getStock());
-            modificado.setId(productoId);
-            return ResponseEntity.ok(productoService.modificarProducto(modificado));
+@PutMapping("/abm/{productoId}")
+public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
+    Optional<Producto> result = productoService.getProductoById(productoId);
+    if (result.isPresent()) {
+        Optional<Tipo> consulta = tipoRepository.findById(modificacion.getTipo());
+        if (consulta.isPresent()) {
+            Tipo tipo = consulta.get();
+            Producto productoExistente = result.get();
+            productoExistente.setNombre(modificacion.getNombre());
+            productoExistente.setDescripcion(modificacion.getDescripcion());
+            productoExistente.setImagen(modificacion.getImagen());
+            productoExistente.setPrecio(modificacion.getPrecio());
+            productoExistente.setLanzamiento(modificacion.getLanzamiento());
+            productoExistente.setDesarrollador(modificacion.getDesarrollador());
+            productoExistente.setTipo(tipo);
+            productoExistente.setStock(modificacion.getStock());
+            Producto productoActualizado = productoService.modificarProducto(productoExistente);
+            return ResponseEntity.ok(productoActualizado);
+        } else {
+            return ResponseEntity.badRequest().build(); // Si el tipo no existe, devuelve una respuesta de error
         }
-        else{
-            return ResponseEntity.noContent().build();
-        }
+    } else {
+        return ResponseEntity.notFound().build();
     }
-*/
+}
 
 }

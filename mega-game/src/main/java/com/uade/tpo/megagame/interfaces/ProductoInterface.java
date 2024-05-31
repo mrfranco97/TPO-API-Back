@@ -19,5 +19,5 @@ public interface ProductoInterface {
 
     public Page<Producto> getProductosDestacados();
 
-
+    void modificarStock(Long idProducto, int cantidad);
 }

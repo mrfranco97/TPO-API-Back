@@ -17,18 +17,17 @@ import com.uade.tpo.megagame.entity.Usuario;
 import com.uade.tpo.megagame.interfaces.UsuarioInterface;
 
 @RestController
-@RequestMapping("usuarios")
 public class UsuariosController {
 
     @Autowired
     private UsuarioInterface usuarioService;
 
-    @GetMapping
+    @GetMapping("/usuarios")
     public List<Usuario> getAllUsuarios() {
         return usuarioService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioService.findById(id).orElse(null);
         if (usuario != null) {
@@ -51,7 +50,7 @@ public class UsuariosController {
         "flag_estado": true
      * }
     */
-    @PostMapping
+    @PostMapping("/newUsuarios")
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario savedUsuario = usuarioService.save(usuario);
         return ResponseEntity.ok(savedUsuario);
@@ -71,7 +70,7 @@ public class UsuariosController {
         "flag_estado": true
      *}
      */
-    @PutMapping
+    @PutMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
         Usuario updatedUsuario = usuarioService.save(usuario);
         if (updatedUsuario != null) {
@@ -81,7 +80,7 @@ public class UsuariosController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/usuarios/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
