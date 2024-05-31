@@ -11,18 +11,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uade.tpo.megagame.entity.Producto;
+import com.uade.tpo.megagame.entity.Usuario;
 import com.uade.tpo.megagame.entity.Venta;
 import com.uade.tpo.megagame.entity.dto.VentaDTO;
+import com.uade.tpo.megagame.entity.dto.VentaDetalleDTO;
+import com.uade.tpo.megagame.interfaces.ProductoInterface;
+import com.uade.tpo.megagame.interfaces.UsuarioInterface;
 import com.uade.tpo.megagame.interfaces.VentaInterface;
 
 
 @RestController
-@RequestMapping("ventas")
 public class VentasController {
     @Autowired
     private VentaInterface ventaService;
 
-    @GetMapping()
+    @Autowired
+    private ProductoInterface productoService;
+
+    @Autowired
+    private UsuarioInterface usuarioService;
+
+    @GetMapping("/ventas")
     public ResponseEntity<List<Venta>> getAll() {
         List<Venta> result = ventaService.findAll();
         if (!result.isEmpty()) {
@@ -32,7 +42,7 @@ public class VentasController {
         }
     }
 
-    @GetMapping("/ByIdUsuario/{idCliente}")
+    @GetMapping("/ventas/ByIdUsuario/{idCliente}")
     public ResponseEntity<List<Venta>> findByIdUsuario(@PathVariable Long idCliente) {
         List<Venta> result = ventaService.findByIdUsuario(idCliente);
         if (!result.isEmpty()) {
@@ -45,20 +55,21 @@ public class VentasController {
     /**
      * Ejemplo post
      * {
-            "id_usuario": 1,
-            "detalles": [
-                {
-                    "id_producto": 1,
-                    "cantidad": 2
-                },
-                {
-                    "id_producto": 2,
-                    "cantidad": 1
-                }
-            ]
-        }
-     /* 
-     @PostMapping
+        "idCliente": 1,
+        "detalles": [
+            {
+                "productoId": 1,
+                "cantidad": 5
+            },
+            {
+                "productoId": 2,
+                "cantidad": 5
+            }
+        ]
+     */
+    
+/* 
+@PostMapping
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
         Venta venta = new Venta();
         for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
