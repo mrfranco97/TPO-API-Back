@@ -70,7 +70,7 @@ public class UsuariosController {
         "flag_estado": true
      *}
      */
-    @PutMapping("/usuarios")
+    @PutMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
         Usuario updatedUsuario = usuarioService.save(usuario);
         if (updatedUsuario != null) {

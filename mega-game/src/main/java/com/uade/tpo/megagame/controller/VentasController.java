@@ -89,7 +89,7 @@ public class VentasController {
     }
 
 */
-    @PostMapping
+    @PostMapping("/ventas")
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
         Venta savedVenta = ventaService.save(ventaDTO);
 
