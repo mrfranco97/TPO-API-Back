@@ -1,5 +1,6 @@
 package com.uade.tpo.megagame.interfaces;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,5 +20,5 @@ public interface ProductoInterface {
 
     public Page<Producto> getProductosDestacados();
 
-
+    void modificarStock(Long idProducto, int cantidad);
 }

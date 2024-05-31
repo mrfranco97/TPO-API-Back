@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +20,6 @@ import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
-
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController

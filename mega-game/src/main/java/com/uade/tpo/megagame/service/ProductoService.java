@@ -17,6 +17,8 @@ import com.uade.tpo.megagame.interfaces.ProductoInterface;
 import com.uade.tpo.megagame.repository.ProductoRepository;
 import com.uade.tpo.megagame.repository.TipoRepository;
 
+import jakarta.persistence.EntityManager;
+
 @Service
 public class ProductoService implements ProductoInterface {
     
@@ -26,7 +28,7 @@ public class ProductoService implements ProductoInterface {
     private TipoRepository tipoRepository;
 
     public Page<Producto> getProductos(PageRequest pageRequest){
-            return productoRepository.findAll(pageRequest);
+        return productoRepository.findAll(pageRequest);
     }
 
     public Optional<Producto> getProductoById(Long productoId){
@@ -55,4 +57,8 @@ public class ProductoService implements ProductoInterface {
         return null;
     }
 
+
+    public void modificarStock(Long idProducto, int cantidad) {
+        productoRepository.modificarStock(idProducto, cantidad);
+    }
 }

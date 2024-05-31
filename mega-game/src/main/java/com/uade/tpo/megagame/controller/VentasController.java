@@ -1,8 +1,6 @@
 package com.uade.tpo.megagame.controller;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uade.tpo.megagame.entity.Producto;
-import com.uade.tpo.megagame.entity.Usuario;
 import com.uade.tpo.megagame.entity.Venta;
-import com.uade.tpo.megagame.entity.VentaDetalle;
 import com.uade.tpo.megagame.entity.dto.VentaDTO;
-import com.uade.tpo.megagame.entity.dto.VentaDetalleDTO;
-import com.uade.tpo.megagame.interfaces.ProductoInterface;
-import com.uade.tpo.megagame.interfaces.UsuarioInterface;
 import com.uade.tpo.megagame.interfaces.VentaInterface;
 
 
@@ -29,12 +21,6 @@ import com.uade.tpo.megagame.interfaces.VentaInterface;
 public class VentasController {
     @Autowired
     private VentaInterface ventaService;
-
-    @Autowired
-    private ProductoInterface productoService;
-
-    @Autowired
-    private UsuarioInterface usuarioService;
 
     @GetMapping()
     public ResponseEntity<List<Venta>> getAll() {
@@ -59,19 +45,18 @@ public class VentasController {
     /**
      * Ejemplo post
      * {
-        "idCliente": 1,
-        "detalles": [
-            {
-                "productoId": 1,
-                "cantidad": 5
-            },
-            {
-                "productoId": 2,
-                "cantidad": 5
-            }
-        ]
-     */
-    
+            "id_usuario": 1,
+            "detalles": [
+                {
+                    "id_producto": 1,
+                    "cantidad": 2
+                },
+                {
+                    "id_producto": 2,
+                    "cantidad": 1
+                }
+            ]
+        }
      /* 
      @PostMapping
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
@@ -95,29 +80,12 @@ public class VentasController {
 */
     @PostMapping
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
-        Venta venta = new Venta();
-        
-        Optional<Usuario> usuarioOptional = usuarioService.findById(ventaDTO.getId_usuario());
-        if (usuarioOptional.isPresent()) {
-            venta.setUsuario(usuarioOptional.get());
-        } else {
-            return ResponseEntity.badRequest().body(null);
+        Venta savedVenta = ventaService.save(ventaDTO);
+
+        if (savedVenta == null){
+            return ResponseEntity.noContent().build();
         }
 
-        for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
-            Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
-            if (productoOptional.isPresent()) {
-                Producto producto = productoOptional.get();
-                VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
-                detalle.setProducto(producto);
-                detalle.setVenta(venta);
-                venta.getDetalle().add(detalle);
-            } else {
-                return ResponseEntity.badRequest().body(null);
-            }
-        }
-
-        Venta savedVenta = ventaService.save(venta);
         return ResponseEntity.ok(savedVenta);
     }
 }
