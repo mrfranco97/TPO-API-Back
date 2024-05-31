@@ -72,7 +72,7 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Aquí puedes mapear los roles a autoridades
-        return List.of(new SimpleGrantedAuthority(rol.getNombre()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
