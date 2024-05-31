@@ -55,7 +55,6 @@ public class VentaService implements VentaInterface {
                         detalle.setProducto(producto);
                         detalle.setVenta(venta);
                         venta.getDetalle().add(detalle);
-                        producto.setStock(producto.getStock() - detalleDTO.getCantidad());
                         
                     } else {
                         ventaOk = false;
