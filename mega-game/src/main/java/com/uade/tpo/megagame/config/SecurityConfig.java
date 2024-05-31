@@ -35,6 +35,7 @@ public class SecurityConfig {
                     .requestMatchers("/error/**").permitAll()
                     // Requiere el rol USER para todas las solicitudes a /catalogo/**
                     .requestMatchers("/catalogo/**").hasAnyAuthority(Role.ADMIN.name(),Role.USER.name())
+                    .requestMatchers("/abm/**").hasAnyAuthority(Role.ADMIN.name())
                     // Requiere el rol ADMIN para todas las solicitudes a /usuarios/**
                     .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
                     // Requiere el rol ADMIN para todas las solicitudes a /ventas/**
