@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,14 +22,12 @@ import com.uade.tpo.megagame.entity.dto.ProductoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
 
-
 @RestController
-@RequestMapping("catalogo")
 public class ProductosController {
     @Autowired
     private ProductoInterface productoService;
 
-    @GetMapping
+    @GetMapping("/catalogo")
     public ResponseEntity<Page<Producto>> getProductos(
         @RequestParam(required = false) Integer page,
         @RequestParam(required = false) Integer size) {
@@ -37,7 +36,7 @@ public class ProductosController {
         return ResponseEntity.ok(productoService.getProductos(PageRequest.of(page, size)));
     }
 
-    @GetMapping("/{productoId}")
+    @GetMapping("/catalogo/{productoId}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Long productoId) {
         Optional<Producto> result = productoService.getProductoById(productoId);
         if (result.isPresent())
@@ -45,7 +44,7 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping("/abm")
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {
         Producto result = productoService.createProducto(
@@ -60,7 +59,7 @@ public class ProductosController {
         return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
     }
 
-    @DeleteMapping("/{productoId}")
+    @DeleteMapping("/abm/{productoId}")
     public ResponseEntity<Producto> deleteProducto(@PathVariable Long productoId){
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
@@ -73,7 +72,7 @@ public class ProductosController {
     }
 
 /* 
-    @PutMapping("/{productoId}")
+    @PutMapping("/abm/{productoId}")
     public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
