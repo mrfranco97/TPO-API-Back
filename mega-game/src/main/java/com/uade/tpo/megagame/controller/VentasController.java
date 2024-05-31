@@ -25,7 +25,6 @@ import com.uade.tpo.megagame.interfaces.VentaInterface;
 
 
 @RestController
-@RequestMapping("ventas")
 public class VentasController {
     @Autowired
     private VentaInterface ventaService;
@@ -36,7 +35,7 @@ public class VentasController {
     @Autowired
     private UsuarioInterface usuarioService;
 
-    @GetMapping()
+    @GetMapping("/ventas")
     public ResponseEntity<List<Venta>> getAll() {
         List<Venta> result = ventaService.findAll();
         if (!result.isEmpty()) {
@@ -46,7 +45,7 @@ public class VentasController {
         }
     }
 
-    @GetMapping("/ByIdUsuario/{idCliente}")
+    @GetMapping("/ventas/ByIdUsuario/{idCliente}")
     public ResponseEntity<List<Venta>> findByIdUsuario(@PathVariable Long idCliente) {
         List<Venta> result = ventaService.findByIdUsuario(idCliente);
         if (!result.isEmpty()) {
@@ -72,8 +71,8 @@ public class VentasController {
         ]
      */
     
-     /* 
-     @PostMapping
+/* 
+@PostMapping
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
         Venta venta = new Venta();
         for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
@@ -93,7 +92,7 @@ public class VentasController {
     }
 
 */
-    @PostMapping
+    @PostMapping("/ventas")
     public ResponseEntity<Venta> createVenta(@RequestBody VentaDTO ventaDTO) {
         Venta venta = new Venta();
         

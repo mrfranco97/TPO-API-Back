@@ -26,12 +26,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("catalogo")
 public class ProductosController {
     @Autowired
     private ProductoInterface productoService;
 
-    @GetMapping
+    @GetMapping("/catalogo")
     public ResponseEntity<Page<Producto>> getProductos(
         @RequestParam(required = false) Integer page,
         @RequestParam(required = false) Integer size) {
@@ -40,7 +39,7 @@ public class ProductosController {
         return ResponseEntity.ok(productoService.getProductos(PageRequest.of(page, size)));
     }
 
-    @GetMapping("/{productoId}")
+    @GetMapping("/catalogo/{productoId}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Long productoId) {
         Optional<Producto> result = productoService.getProductoById(productoId);
         if (result.isPresent())
@@ -48,7 +47,7 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping("/abm")
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {
         Producto result = productoService.createProducto(
@@ -63,7 +62,7 @@ public class ProductosController {
         return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
     }
 
-    @DeleteMapping("/{productoId}")
+    @DeleteMapping("/abm/{productoId}")
     public ResponseEntity<Producto> deleteProducto(@PathVariable Long productoId){
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
@@ -76,7 +75,7 @@ public class ProductosController {
     }
 
 /* 
-    @PutMapping("/{productoId}")
+    @PutMapping("/abm/{productoId}")
     public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
         Optional<Producto>result=productoService.getProductoById(productoId);
         if(result.isPresent()){
@@ -89,5 +88,6 @@ public class ProductosController {
         }
     }
 */
+
 
 }
