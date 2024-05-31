@@ -22,6 +22,7 @@ public class ProductoService implements ProductoInterface {
     
     @Autowired
     private ProductoRepository productoRepository;
+
     @Autowired
     private TipoRepository tipoRepository;
 
@@ -32,6 +33,18 @@ public class ProductoService implements ProductoInterface {
     public Optional<Producto> getProductoById(Long productoId){
         return productoRepository.findById(productoId);
     }
+
+
+    //* inicio filtro */
+    public Optional<Producto> getProductoByTipo(Long tipo){
+        return productoRepository.findByTipo(tipo);
+    }
+    //* fin filtro */
+
+
+
+
+
     //Evite los datos que dependen de las relaciones Genero,Tipo
     public Producto createProducto(String nombre,String descripcion,String imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException{
         List<Producto> productos = productoRepository.findByName(nombre);

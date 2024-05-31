@@ -48,6 +48,16 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
+    //* inicio filtro tipo */
+    @GetMapping("/gen/{tipo}")
+    public ResponseEntity<Producto> getProductoByTipo(@PathVariable Long tipo) {
+        Optional<Producto> result = productoService.getProductoByTipo(tipo);
+        if (result.isPresent())
+            return ResponseEntity.ok(result.get());
+        return ResponseEntity.noContent().build();
+    }
+    //* fin filtro tipo */
+
     @PostMapping
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
             throws ProductoDuplicadoException {

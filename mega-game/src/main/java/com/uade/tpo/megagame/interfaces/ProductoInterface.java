@@ -11,6 +11,10 @@ public interface ProductoInterface {
 
     public Optional<Producto> getProductoById(Long productoId);
 
+    //* inicio filtro */
+    public Optional<Producto> getProductoByTipo(Long tipo);
+    //* fin filtro */
+
     public Producto createProducto(String nombre,String descripcion,String imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
 
     public void eliminarProducto(Long id);
