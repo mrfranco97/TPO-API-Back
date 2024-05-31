@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.megagame.entity.Usuario;
@@ -37,39 +35,7 @@ public class UsuariosController {
         }
     }
 
-    /**
-     * {
-        "nombre": "Matias Fuensalida",
-        "telefono": "123456789",
-        "mail": "mathias.fuensalida@hotmail.com",
-        "login": "mati",
-        "pass": "12345",
-        "rol": {
-            "id": 1
-        },
-        "flag_estado": true
-     * }
-    */
-    @PostMapping("/newUsuarios")
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-        Usuario savedUsuario = usuarioService.save(usuario);
-        return ResponseEntity.ok(savedUsuario);
-    }
-
-    /**
-     *{
-        "id": 1,
-        "nombre": "Matias Fuensalida Actualizado",
-        "telefono": "123456789",
-        "mail": "mathias.fuensalida@hotmail.com",
-        "login": "mati",
-        "pass": "12345",
-        "rol": {
-            "id": 1
-        },
-        "flag_estado": true
-     *}
-     */
+    /*
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
         Usuario updatedUsuario = usuarioService.save(usuario);
@@ -79,6 +45,7 @@ public class UsuariosController {
             return ResponseEntity.notFound().build();
         }
     }
+    */
 
     @DeleteMapping("/usuarios/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {

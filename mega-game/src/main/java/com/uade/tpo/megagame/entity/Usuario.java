@@ -2,7 +2,6 @@ package com.uade.tpo.megagame.entity;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,13 +19,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -43,20 +40,22 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Column
     private String nombre;
+    
     @Column
     private String telefono;
+    
     @Column
     private String mail;
+    
     @Column
     private String login;
+    
     @Column
     private String pass;
-    @JsonManagedReference
-    @OneToOne
-    @JoinColumn(name = "id_rol")
-    private Rol rol;
+
     @Column
     private Boolean flag_estado;
 

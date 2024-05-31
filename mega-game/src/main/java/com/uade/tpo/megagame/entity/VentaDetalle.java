@@ -1,6 +1,5 @@
 package com.uade.tpo.megagame.entity;
 
-import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

@@ -1,9 +1,7 @@
 package com.uade.tpo.megagame.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +24,13 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = Usuario.builder()
-                                .nombre(request.getFirstname())
-                                .mail(request.getEmail())
-                                .pass(passwordEncoder.encode(request.getPassword()))
-                                .role(request.getRole())
+                                .nombre(request.getNombre())
+                                .telefono(request.getTelefono())
+                                .mail(request.getMail())
+                                .login(request.getLogin())
+                                .pass(passwordEncoder.encode(request.getPass()))
                                 .flag_estado(true) 
+                                .role(request.getRole())
                                 .build();
 
                 repository.save(user);
