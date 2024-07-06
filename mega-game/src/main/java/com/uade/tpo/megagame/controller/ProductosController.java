@@ -1,6 +1,7 @@
 package com.uade.tpo.megagame.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,17 @@ public class ProductosController {
             //return ResponseEntity.ok(result.get());
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/catalogo/nombre/{productoNombre}")
+    public ResponseEntity<List<Producto>> getProductosByNombre(@PathVariable String productoNombre) {
+        List<Producto> result = productoService.getProductoByNombre(productoNombre);
+        if (result.size() > 0)
+            return ResponseEntity.ok(result);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 
     @PostMapping(value = "/abm", consumes = "multipart/form-data")
     public ResponseEntity<Object> createProducto(@ModelAttribute ProductoDTO productodto)

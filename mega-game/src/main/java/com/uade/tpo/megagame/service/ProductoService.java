@@ -27,7 +27,9 @@ public class ProductoService implements ProductoInterface {
     public Page<Producto> getProductos(PageRequest pageRequest){
         return productoRepository.findAll(pageRequest);
     }
-
+    public List<Producto> getProductoByNombre(String productoName){
+        return productoRepository.findLikeName(productoName);
+    }
     public Optional<Producto> getProductoById(Long productoId){
         return productoRepository.findById(productoId);
     }
