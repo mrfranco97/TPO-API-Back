@@ -1,4 +1,5 @@
 package com.uade.tpo.megagame.interfaces;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ public interface ProductoInterface {
 
     public Optional<Producto> getProductoById(Long productoId);
 
-    public Producto createProducto(String nombre,String descripcion,String imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
+    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
 
     public void eliminarProducto(Long id);
 

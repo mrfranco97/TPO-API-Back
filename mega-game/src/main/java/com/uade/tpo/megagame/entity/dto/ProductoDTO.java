@@ -6,17 +6,34 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import org.springframework.web.multipart.MultipartFile;
+import javax.sql.rowset.serial.SerialException;
+
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductoDTO {
     private String nombre;
     private String descripcion;
-    private String imagen;
+    private MultipartFile imagen;
     private Double precio;
     private LocalDate lanzamiento;
     private String desarrollador;
     private Long tipo;
     private Integer stock;
+
+    public Blob getImagen() {
+        try {
+            byte[] bytes = imagen.getBytes();
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+            return blob;
+        } catch (IOException | SQLException e) {
+            return null;
+        }
+    }
 }
 

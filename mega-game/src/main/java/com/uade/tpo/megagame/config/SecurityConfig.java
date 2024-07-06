@@ -32,8 +32,10 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/error/**").permitAll()
                     // Requiere el rol USER para todas las solicitudes a /catalogo/**
-                    .requestMatchers("/catalogo/**").hasAnyAuthority(Role.ADMIN.name(),Role.USER.name())
-                    .requestMatchers("/abm/**").hasAnyAuthority(Role.ADMIN.name())
+                    //.requestMatchers("/catalogo/**").hasAnyAuthority(Role.ADMIN.name(),Role.USER.name())
+                    .requestMatchers("/catalogo/**").permitAll()
+                    .requestMatchers("/abm/**").permitAll()
+                    //.requestMatchers("/abm/**").hasAnyAuthority(Role.ADMIN.name())
                     // Requiere el rol ADMIN para todas las solicitudes a /usuarios/**
                     .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
                     .requestMatchers("/newUsuarios/**").hasAnyAuthority(Role.ADMIN.name(),Role.USER.name())

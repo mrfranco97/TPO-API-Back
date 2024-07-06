@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,12 +45,13 @@ public class ProductosController {
     public ResponseEntity<Producto> getProductoById(@PathVariable Long productoId) {
         Optional<Producto> result = productoService.getProductoById(productoId);
         if (result.isPresent())
-            return ResponseEntity.ok(result.get());
+            return ResponseEntity.ok().body(result.get());
+            //return ResponseEntity.ok(result.get());
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/abm")
-    public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productodto)
+    @PostMapping(value = "/abm", consumes = "multipart/form-data")
+    public ResponseEntity<Object> createProducto(@ModelAttribute ProductoDTO productodto)
             throws ProductoDuplicadoException {
         Producto result = productoService.createProducto(
             productodto.getNombre(),

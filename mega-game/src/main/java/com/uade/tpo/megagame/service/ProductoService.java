@@ -1,4 +1,5 @@
 package com.uade.tpo.megagame.service;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class ProductoService implements ProductoInterface {
         return productoRepository.findById(productoId);
     }
     //Evite los datos que dependen de las relaciones Genero,Tipo
-    public Producto createProducto(String nombre,String descripcion,String imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException{
+    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException{
         List<Producto> productos = productoRepository.findByName(nombre);
         Optional<Tipo> consulta = tipoRepository.findById(id_tipo);
         if (productos.isEmpty() && consulta.isPresent()){
