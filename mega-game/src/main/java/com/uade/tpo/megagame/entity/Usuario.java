@@ -37,19 +37,19 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
+    @Column(nullable = false)
     private String nombre;
     
     @Column
     private String telefono;
     
-    @Column
+    @Column(nullable = false, unique = true)
     private String mail;
     
-    @Column
+    @Column(nullable = false, unique = true)
     private String login;
     
-    @Column
+    @Column(nullable = false)
     private String pass;
 
     @Column

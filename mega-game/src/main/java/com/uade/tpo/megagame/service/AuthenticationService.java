@@ -1,6 +1,8 @@
 package com.uade.tpo.megagame.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,11 @@ public class AuthenticationService {
                                 .flag_estado(true) 
                                 .role(request.getRole())
                                 .build();
-
-                repository.save(user);
+                                try {
+                                        repository.save(user);
+                                    } catch (DataIntegrityViolationException e) {
+                                        throw new BadCredentialsException("El correo electrónico ya está registrado");
+                                    }
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
