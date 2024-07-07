@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,21 +64,26 @@ public class ProductosController {
     }
 
     @PostMapping(value = "/abm", consumes = "multipart/form-data")
-    public ResponseEntity<Object> createProducto(@ModelAttribute ProductoDTO productodto)
-            throws ProductoDuplicadoException {
-        Producto result = productoService.createProducto(
-            productodto.getNombre(),
-            productodto.getDescripcion(),
-            productodto.getImagen(),
-            productodto.getPrecio(),
-            productodto.getDescuento(),
-            productodto.getLanzamiento(),
-            productodto.getDesarrollador(),
-            productodto.getTipo(),
-            productodto.getStock());
-        return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
+    public ResponseEntity<Object> createProducto(@ModelAttribute ProductoDTO productodto) {
+        try {
+            Producto result = productoService.createProducto(
+                productodto.getNombre(),
+                productodto.getDescripcion(),
+                productodto.getImagen(),
+                productodto.getPrecio(),
+                productodto.getDescuento(),
+                productodto.getLanzamiento(),
+                productodto.getDesarrollador(),
+                productodto.getTipo(),
+                productodto.getStock());
+            return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
+        } catch (ProductoDuplicadoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\":\"Producto duplicado\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\":\"Error interno del servidor\"}");
+        }
     }
-
+    
     @DeleteMapping("/abm/{productoId}")
     public ResponseEntity<Producto> deleteProducto(@PathVariable Long productoId){
         Optional<Producto>result=productoService.getProductoById(productoId);
