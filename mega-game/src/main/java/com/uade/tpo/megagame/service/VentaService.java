@@ -52,9 +52,12 @@ public class VentaService implements VentaInterface {
                     Producto producto = productoOptional.get();
                     if (producto.getStock() >= detalleDTO.getCantidad()){
                         VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
+                        detalle.setDescuento(producto.getDescuento());
                         detalle.setProducto(producto);
                         detalle.setVenta(venta);
                         venta.getDetalle().add(detalle);
+                        venta.addSubTotal(producto.getPrecio());
+                        venta.addTotal(producto.getPrecioDescuento());
                         
                     } else {
                         ventaOk = false;

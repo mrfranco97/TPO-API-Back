@@ -10,17 +10,11 @@ import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 
 public interface ProductoInterface {
     public Page<Producto> getProductos(PageRequest pageRequest);
-
     public List<Producto> getProductoByNombre(String productoName);
     public Optional<Producto> getProductoById(Long productoId);
-
-    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
-
+    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
     public void eliminarProducto(Long id);
-
     public Producto modificarProducto(Producto modificacion);
-
     public Page<Producto> getProductosDestacados();
-
     void modificarStock(Long idProducto, int cantidad);
 }

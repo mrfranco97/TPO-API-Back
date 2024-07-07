@@ -26,6 +26,8 @@ public class Venta {
     public Venta(){
         this.fecha_compra = LocalDate.now();
         this.detalle = new ArrayList<>();
+        this.subTotal = 0.00;
+        this.total = 0.00;
     }
 
     @Id
@@ -38,8 +40,24 @@ public class Venta {
 
     @Column
     private LocalDate fecha_compra;
+
+    @Column
+    private Double subTotal;
+
+    @Column
+    private Double total;
     
     @JsonManagedReference
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
     private List<VentaDetalle> detalle;
+
+
+    public void addSubTotal(Double subTotal){
+        this.subTotal += subTotal;
+    }
+
+    public void addTotal(Double total){
+        this.total += total;
+    }
+
 }

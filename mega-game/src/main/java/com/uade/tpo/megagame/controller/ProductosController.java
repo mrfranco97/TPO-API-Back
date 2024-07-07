@@ -60,8 +60,6 @@ public class ProductosController {
         return ResponseEntity.noContent().build();
     }
 
-
-
     @PostMapping(value = "/abm", consumes = "multipart/form-data")
     public ResponseEntity<Object> createProducto(@ModelAttribute ProductoDTO productodto)
             throws ProductoDuplicadoException {
@@ -70,6 +68,7 @@ public class ProductosController {
             productodto.getDescripcion(),
             productodto.getImagen(),
             productodto.getPrecio(),
+            productodto.getDescuento(),
             productodto.getLanzamiento(),
             productodto.getDesarrollador(),
             productodto.getTipo(),
@@ -101,6 +100,7 @@ public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId,
             productoExistente.setDescripcion(modificacion.getDescripcion());
             productoExistente.setImagen(modificacion.getImagen());
             productoExistente.setPrecio(modificacion.getPrecio());
+            productoExistente.setDescuento(modificacion.getDescuento());
             productoExistente.setLanzamiento(modificacion.getLanzamiento());
             productoExistente.setDesarrollador(modificacion.getDesarrollador());
             productoExistente.setTipo(tipo);
@@ -108,7 +108,7 @@ public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId,
             Producto productoActualizado = productoService.modificarProducto(productoExistente);
             return ResponseEntity.ok(productoActualizado);
         } else {
-            return ResponseEntity.badRequest().build(); // Si el tipo no existe, devuelve una respuesta de error
+            return ResponseEntity.badRequest().build();
         }
     } else {
         return ResponseEntity.notFound().build();

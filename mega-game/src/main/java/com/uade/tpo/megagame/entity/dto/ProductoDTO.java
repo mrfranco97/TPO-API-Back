@@ -21,6 +21,7 @@ public class ProductoDTO {
     private String descripcion;
     private MultipartFile imagen;
     private Double precio;
+    private Float descuento;
     private LocalDate lanzamiento;
     private String desarrollador;
     private Long tipo;

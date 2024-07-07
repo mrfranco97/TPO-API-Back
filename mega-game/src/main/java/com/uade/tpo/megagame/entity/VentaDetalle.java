@@ -25,7 +25,6 @@ public class VentaDetalle {
     public VentaDetalle(int cantidad)
     {
         this.cantidad = cantidad;
-        
     }
 
     @Id
@@ -43,6 +42,9 @@ public class VentaDetalle {
 
     @Column
     private Double precio;
+
+    @Column
+    private Float descuento;
 
     @Column
     private Integer cantidad;

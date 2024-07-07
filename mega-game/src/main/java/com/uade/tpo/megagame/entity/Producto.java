@@ -28,11 +28,12 @@ import java.sql.Blob;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Producto {  
-    public Producto(String nombre,String descripcion,Blob imagen,Double precio,LocalDate lanzamiento,String desarrolador,Tipo tipo,Integer stock){
+    public Producto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Tipo tipo,Integer stock){
         this.nombre=nombre;
         this.descripcion=descripcion;
         this.imagen=imagen;
         this.precio=precio;
+        this.descuento=descuento;
         this.lanzamiento=lanzamiento;
         this.desarrollador=desarrolador;
         this.tipo=tipo;
@@ -52,9 +53,11 @@ public class Producto {
     @Column
     private Double precio;
     @Column
+    private Float descuento;
+    @Column
     private LocalDate lanzamiento;
     @Column
-    private Boolean flag_destacar=false;
+    private Boolean flag_destacar = false;
     @Column
     private String desarrollador;
     @Column
@@ -79,4 +82,11 @@ public class Producto {
         return null;
     }
 
+    public Double getPrecioDescuento(){
+        if(descuento == 0 || descuento == null){
+            return this.precio;
+        }else{
+            return this.precio - ((this.precio * this.descuento)/100);
+        }
+    }
 }
