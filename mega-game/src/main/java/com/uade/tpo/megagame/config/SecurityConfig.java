@@ -31,6 +31,7 @@ public class SecurityConfig {
                 req
                     .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/*").permitAll()
+                    .requestMatchers("/abm/*").permitAll()
                     /* 
                     .requestMatchers("/error/**").permitAll()
                     // Requiere el rol USER para todas las solicitudes a /catalogo/**
@@ -43,7 +44,7 @@ public class SecurityConfig {
                     .requestMatchers("/ventas/**").hasAnyAuthority(Role.ADMIN.name(),Role.USER.name())
                     // Todas las demás solicitudes requieren autenticación
                     */
-                    .anyRequest().authenticated()
+                    //.anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .authenticationProvider(authenticationProvider)
