@@ -32,6 +32,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/*").permitAll()
                     .requestMatchers("/abm/*").permitAll()
+                    .requestMatchers("/catalogo/*").permitAll()
                     /* 
                     .requestMatchers("/error/**").permitAll()
                     // Requiere el rol USER para todas las solicitudes a /catalogo/**

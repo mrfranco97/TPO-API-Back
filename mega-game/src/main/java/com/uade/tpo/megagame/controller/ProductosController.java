@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.Tipo;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
+import com.uade.tpo.megagame.entity.dto.TipoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
 import com.uade.tpo.megagame.repository.TipoRepository;
@@ -96,31 +97,48 @@ public class ProductosController {
         }
     }
 
-@PutMapping("/abm/{productoId}")
-public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
-    Optional<Producto> result = productoService.getProductoById(productoId);
-    if (result.isPresent()) {
-        Optional<Tipo> consulta = tipoRepository.findById(modificacion.getTipo());
-        if (consulta.isPresent()) {
-            Tipo tipo = consulta.get();
-            Producto productoExistente = result.get();
-            productoExistente.setNombre(modificacion.getNombre());
-            productoExistente.setDescripcion(modificacion.getDescripcion());
-            productoExistente.setImagen(modificacion.getImagen());
-            productoExistente.setPrecio(modificacion.getPrecio());
-            productoExistente.setDescuento(modificacion.getDescuento());
-            productoExistente.setLanzamiento(modificacion.getLanzamiento());
-            productoExistente.setDesarrollador(modificacion.getDesarrollador());
-            productoExistente.setTipo(tipo);
-            productoExistente.setStock(modificacion.getStock());
-            Producto productoActualizado = productoService.modificarProducto(productoExistente);
-            return ResponseEntity.ok(productoActualizado);
+    @PutMapping("/abm/{productoId}")
+    public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
+        Optional<Producto> result = productoService.getProductoById(productoId);
+        if (result.isPresent()) {
+            Optional<Tipo> consulta = tipoRepository.findById(modificacion.getTipo());
+            if (consulta.isPresent()) {
+                Tipo tipo = consulta.get();
+                Producto productoExistente = result.get();
+                productoExistente.setNombre(modificacion.getNombre());
+                productoExistente.setDescripcion(modificacion.getDescripcion());
+                productoExistente.setImagen(modificacion.getImagen());
+                productoExistente.setPrecio(modificacion.getPrecio());
+                productoExistente.setDescuento(modificacion.getDescuento());
+                productoExistente.setLanzamiento(modificacion.getLanzamiento());
+                productoExistente.setDesarrollador(modificacion.getDesarrollador());
+                productoExistente.setTipo(tipo);
+                productoExistente.setStock(modificacion.getStock());
+                Producto productoActualizado = productoService.modificarProducto(productoExistente);
+                return ResponseEntity.ok(productoActualizado);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
-    } else {
-        return ResponseEntity.notFound().build();
     }
-}
 
+    @GetMapping("/catalogo/tipo")
+    public ResponseEntity<List<Tipo>> getTipo() {
+        List<Tipo> result =  productoService.getTipo();
+        if (result.size() > 0)
+            return ResponseEntity.ok(result);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/catalogo/tipo/{tipoID}")
+    public ResponseEntity<Tipo> getTipoByID(@PathVariable Long tipoID) {
+        Optional<Tipo> result = tipoRepository.findById(tipoID);
+        if (result.isPresent())
+            return ResponseEntity.ok().body(result.get());
+            
+        return ResponseEntity.noContent().build();
+    }
 }

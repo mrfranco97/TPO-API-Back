@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import com.uade.tpo.megagame.entity.Producto;
+import com.uade.tpo.megagame.entity.Tipo;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 
 public interface ProductoInterface {
@@ -15,6 +16,8 @@ public interface ProductoInterface {
     public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException;
     public void eliminarProducto(Long id);
     public Producto modificarProducto(Producto modificacion);
-    public Page<Producto> getProductosDestacados();
+    public List<Producto> getProductosDestacados();
     void modificarStock(Long idProducto, int cantidad);
+    public List<Tipo> getTipo();
+    public Optional<Tipo> getTipoByID(Long tipoID);
 }
