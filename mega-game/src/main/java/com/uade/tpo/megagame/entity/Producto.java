@@ -3,7 +3,7 @@ package com.uade.tpo.megagame.entity;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
+import java.util.Base64;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,46 +20,54 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.sql.Blob;
-
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Producto {  
-    public Producto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Tipo tipo,Integer stock){
-        this.nombre=nombre;
-        this.descripcion=descripcion;
-        this.imagen=imagen;
-        this.precio=precio;
-        this.descuento=descuento;
-        this.lanzamiento=lanzamiento;
-        this.desarrollador=desarrolador;
-        this.tipo=tipo;
-        this.stock=stock;
+    public Producto(String nombre, String descripcion, Blob imagen, Double precio, Float descuento, LocalDate lanzamiento, String desarrollador, Tipo tipo, Integer stock) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.precio = precio;
+        this.descuento = descuento;
+        this.lanzamiento = lanzamiento;
+        this.desarrollador = desarrollador;
+        this.tipo = tipo;
+        this.stock = stock;
     }  
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String nombre;
+
     @Column
     private String descripcion;
+
     @Column
     @JsonIgnore
     @Lob
     private Blob imagen;
+
     @Column
     private Double precio;
+
     @Column
     private Float descuento;
+
     @Column
     private LocalDate lanzamiento;
+
     @Column
     private Boolean flag_destacar = false;
+
     @Column
     private String desarrollador;
+
     @Column
     private int stock;
 
@@ -69,12 +77,13 @@ public class Producto {
     private Tipo tipo;
 
     @JsonProperty("imagen")
-    public byte[] getImagenBytes() {
+    public String getImagenBytes() {
         if (this.imagen != null) {
             try {
                 int blobLength = (int) imagen.length();
                 byte[] blobBytes = imagen.getBytes(1, blobLength);
-                return blobBytes;
+                return "data:image/jpeg;base64,"+ Base64.getEncoder().encodeToString(blobBytes);
+                //return Base64.getEncoder().encodeToString(blobBytes);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -82,11 +91,11 @@ public class Producto {
         return null;
     }
 
-    public Double getPrecioDescuento(){
-        if(descuento == 0 || descuento == null){
+    public Double getPrecioDescuento() {
+        if (descuento == 0 || descuento == null) {
             return this.precio;
-        }else{
-            return this.precio - ((this.precio * this.descuento)/100);
+        } else {
+            return this.precio - ((this.precio * this.descuento) / 100);
         }
     }
 }
