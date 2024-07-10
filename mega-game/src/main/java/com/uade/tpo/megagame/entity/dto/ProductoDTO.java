@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
-import javax.sql.rowset.serial.SerialException;
 
 import java.io.IOException;
 import java.sql.Blob;

@@ -6,14 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.uade.tpo.megagame.entity.Role ;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
-
     @JsonProperty("access_token")
     private String accessToken;
+    private String mail;
+    private String login;
+    private String nombre;
+    private Role rol;
 }
 

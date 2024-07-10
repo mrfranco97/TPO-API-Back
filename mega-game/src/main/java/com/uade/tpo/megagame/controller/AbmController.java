@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.megagame.entity.Producto;
 import com.uade.tpo.megagame.entity.Tipo;
 import com.uade.tpo.megagame.entity.dto.ProductoDTO;
-import com.uade.tpo.megagame.entity.dto.TipoDTO;
 import com.uade.tpo.megagame.exception.ProductoDuplicadoException;
 import com.uade.tpo.megagame.interfaces.ProductoInterface;
 import com.uade.tpo.megagame.repository.TipoRepository;
