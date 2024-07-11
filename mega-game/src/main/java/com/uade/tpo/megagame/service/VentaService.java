@@ -1,4 +1,5 @@
 package com.uade.tpo.megagame.service;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class VentaService implements VentaInterface {
         if (usuarioOptional.isPresent()) {
             venta = new Venta();
             venta.setUsuario(usuarioOptional.get());
+            double subTotal = 0;
+            double total = 0;
             for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
                 Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
                 if (productoOptional.isPresent()) {
@@ -56,8 +59,13 @@ public class VentaService implements VentaInterface {
                         detalle.setProducto(producto);
                         detalle.setVenta(venta);
                         venta.getDetalle().add(detalle);
-                        venta.addSubTotal(producto.getPrecio());
-                        venta.addTotal(producto.getPrecioDescuento());
+
+                        // Calcular subtotal y total para cada producto y multiplicar por la cantidad
+                        double precioTotalProducto = producto.getPrecio() * detalleDTO.getCantidad();
+                        double precioTotalProductoDescuento = producto.getPrecioDescuento() * detalleDTO.getCantidad();
+
+                        subTotal += precioTotalProducto;
+                        total += precioTotalProductoDescuento;
                         
                     } else {
                         ventaOk = false;
@@ -71,6 +79,8 @@ public class VentaService implements VentaInterface {
                 for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
                     productoService.modificarStock(detalleDTO.getId_producto(), detalleDTO.getCantidad());
                 }
+                venta.setSubTotal(subTotal);
+                venta.setTotal(total);
                 venta = ventaRepository.save(venta);
             }
         }
