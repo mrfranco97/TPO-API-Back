@@ -15,6 +15,7 @@ import com.uade.tpo.megagame.entity.Role ;
 public class AuthenticationResponse {
     @JsonProperty("access_token")
     private String accessToken;
+    private Long id;
     private String mail;
     private String login;
     private String nombre;

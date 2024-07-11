@@ -13,9 +13,8 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@SuppressWarnings("null") CorsRegistry registry) {
-                registry.addMapping("/api/v1/auth/**")
+                registry.addMapping("/**")
                         .allowedOrigins("http://localhost:5173")
-                        //.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
