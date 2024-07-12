@@ -39,7 +39,7 @@ public class VentaService implements VentaInterface {
         return ventaRepository.findByIdUsuario(usuario);
     }
 
-    public Venta save(VentaDTO ventaDTO) {
+    public Venta save(VentaDTO ventaDTO) throws Exception {
         Venta venta = null;
         boolean ventaOk = true;
 
@@ -53,7 +53,7 @@ public class VentaService implements VentaInterface {
                 Optional<Producto> productoOptional = productoService.getProductoById(detalleDTO.getId_producto());
                 if (productoOptional.isPresent()) {
                     Producto producto = productoOptional.get();
-                    if (producto.getStock() >= detalleDTO.getCantidad()){
+                    if (producto.getStock() >= detalleDTO.getCantidad()) {
                         VentaDetalle detalle = new VentaDetalle(detalleDTO.getCantidad());
                         detalle.setDescuento(producto.getDescuento());
                         detalle.setProducto(producto);
@@ -68,14 +68,14 @@ public class VentaService implements VentaInterface {
                         total += precioTotalProductoDescuento;
                         
                     } else {
-                        ventaOk = false;
-                        venta = null;
-                        break;
+                        throw new Exception("Stock insuficiente para el producto: " + producto.getNombre());
                     }
-                } 
+                } else {
+                    throw new Exception("Producto no encontrado: " + detalleDTO.getId_producto());
+                }
             }
 
-            if (ventaOk){
+            if (ventaOk) {
                 for (VentaDetalleDTO detalleDTO : ventaDTO.getDetalles()) {
                     productoService.modificarStock(detalleDTO.getId_producto(), detalleDTO.getCantidad());
                 }
