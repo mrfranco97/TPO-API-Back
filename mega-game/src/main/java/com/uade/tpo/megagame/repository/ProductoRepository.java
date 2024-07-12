@@ -21,6 +21,10 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     @Query("SELECT p FROM Producto p WHERE p.flag_destacar = true")
     List<Producto> findDestacados();
+
+    @Query("SELECT p FROM Producto p WHERE p.tipo.id = :tipoId")
+    List<Producto> findByTipoId(@Param("tipoId") Long tipoId);
+
     
     @Modifying
     @Transactional

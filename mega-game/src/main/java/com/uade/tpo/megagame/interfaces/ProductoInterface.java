@@ -20,4 +20,5 @@ public interface ProductoInterface {
     void modificarStock(Long idProducto, int cantidad);
     public List<Tipo> getTipo();
     public Optional<Tipo> getTipoByID(Long tipoID);
+    List<Producto> getProductosByTipo(Long tipoId);
 }

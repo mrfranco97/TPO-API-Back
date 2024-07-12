@@ -71,4 +71,21 @@ public class ProductosController {
             
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/catalogo/filtro")
+public ResponseEntity<List<Producto>> getProductosFiltrados(
+    @RequestParam(required = false) Long tipoId) {
+
+    List<Producto> productos;
+    if (tipoId != null) {
+        productos = productoService.getProductosByTipo(tipoId);
+    } else {
+        productos = productoService.getProductos(PageRequest.of(0, Integer.MAX_VALUE)).getContent();
+    }
+
+    if (productos.size() > 0)
+        return ResponseEntity.ok(productos);
+
+    return ResponseEntity.noContent().build();
+}
+
 }

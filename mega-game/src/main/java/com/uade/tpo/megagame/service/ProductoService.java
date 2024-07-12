@@ -70,4 +70,9 @@ public class ProductoService implements ProductoInterface {
     public Optional<Tipo> getTipoByID(Long tipoID) {
         return tipoRepository.findById(tipoID);
     }
+    
+    public List<Producto> getProductosByTipo(Long tipoId) {
+        return productoRepository.findByTipoId(tipoId);
+    }
+    
 }
