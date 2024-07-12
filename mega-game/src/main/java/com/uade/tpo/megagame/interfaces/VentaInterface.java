@@ -12,5 +12,5 @@ public interface VentaInterface {
 
     public List<Venta> findByIdUsuario(Long clienteId);
     
-    public Venta save(VentaDTO venta);
+    public Venta save(VentaDTO venta) throws Exception;
 }
