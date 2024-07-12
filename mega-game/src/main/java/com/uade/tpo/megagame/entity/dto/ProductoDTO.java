@@ -29,7 +29,7 @@ public class ProductoDTO {
     private Integer stock;
 
     public Blob getImagen() {
-        try {
+        try {   
             byte[] bytes = imagen.getBytes();
             Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
             return blob;

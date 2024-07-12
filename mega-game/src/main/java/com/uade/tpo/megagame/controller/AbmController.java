@@ -68,8 +68,8 @@ public class AbmController {
         }
     }
 
-    @PutMapping(value = "/abm", consumes = "multipart/form-data")
-    public ResponseEntity<Producto> modificarProducto(@ModelAttribute ProductoDTO modificacion) {
+    @PutMapping("/abm")
+    public ResponseEntity<Producto> modificarProducto(@RequestBody ProductoDTO modificacion) {
         Optional<Producto> result = productoService.getProductoById(modificacion.getId());
         if (result.isPresent()) {
             Optional<Tipo> consulta = tipoRepository.findById(modificacion.getTipo());
@@ -78,13 +78,14 @@ public class AbmController {
                 Producto productoExistente = result.get();
                 productoExistente.setNombre(modificacion.getNombre());
                 productoExistente.setDescripcion(modificacion.getDescripcion());
-                productoExistente.setImagen(modificacion.getImagen());
+                //productoExistente.setImagen(modificacion.getImagen());
                 productoExistente.setPrecio(modificacion.getPrecio());
                 productoExistente.setDescuento(modificacion.getDescuento());
                 productoExistente.setLanzamiento(modificacion.getLanzamiento());
                 productoExistente.setDesarrollador(modificacion.getDesarrollador());
                 productoExistente.setTipo(tipo);
                 productoExistente.setStock(modificacion.getStock());
+                productoExistente.setFlag_destacar(modificacion.getFlag_destacar());
                 Producto productoActualizado = productoService.modificarProducto(productoExistente);
                 return ResponseEntity.ok(productoActualizado);
             } else {
