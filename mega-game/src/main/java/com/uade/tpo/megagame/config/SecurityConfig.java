@@ -30,9 +30,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(req ->
                 req
                     .requestMatchers("/api/v1/auth/**").permitAll()
-                    .requestMatchers("/*").permitAll()
-                    .requestMatchers("/abm/*").permitAll()
-                    .requestMatchers("/catalogo/*").permitAll()
+                    .requestMatchers("/abm/**").hasAnyAuthority(Role.ADMIN.name())
+                    .requestMatchers("/catalogo/**").permitAll()
                     /* 
                     .requestMatchers("/error/**").permitAll()
                     // Requiere el rol USER para todas las solicitudes a /catalogo/**
