@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Producto {  
-    public Producto(String nombre, String descripcion, Blob imagen, Double precio, Float descuento, LocalDate lanzamiento, String desarrollador, Tipo tipo, Integer stock) {
+    public Producto(String nombre, String descripcion, Blob imagen, Double precio, Float descuento, LocalDate lanzamiento, String desarrollador, Tipo tipo, Integer stock, Boolean flag_destacar ) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
@@ -36,6 +36,7 @@ public class Producto {
         this.desarrollador = desarrollador;
         this.tipo = tipo;
         this.stock = stock;
+        this.flag_destacar = flag_destacar;
     }  
 
     @Id

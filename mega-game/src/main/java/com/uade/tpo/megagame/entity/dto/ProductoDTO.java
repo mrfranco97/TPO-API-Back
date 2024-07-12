@@ -16,12 +16,14 @@ import java.sql.SQLException;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductoDTO {
+    private Long id;
     private String nombre;
     private String descripcion;
     private MultipartFile imagen;
     private Double precio;
     private Float descuento;
     private LocalDate lanzamiento;
+    private Boolean flag_destacar;
     private String desarrollador;
     private Long tipo;
     private Integer stock;
@@ -36,4 +38,3 @@ public class ProductoDTO {
         }
     }
 }
-

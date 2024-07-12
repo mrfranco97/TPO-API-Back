@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +45,9 @@ public class AbmController {
                 productodto.getLanzamiento(),
                 productodto.getDesarrollador(),
                 productodto.getTipo(),
-                productodto.getStock());
+                productodto.getStock(),
+                productodto.getFlag_destacar()
+                );
             return ResponseEntity.created(URI.create("/catalogo/" + result.getId())).body(result);
         } catch (ProductoDuplicadoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\":\"Producto duplicado\"}");
@@ -69,9 +68,9 @@ public class AbmController {
         }
     }
 
-    @PutMapping("/abm/{productoId}")
-    public ResponseEntity<Producto> modificarProducto(@PathVariable Long productoId, @RequestBody ProductoDTO modificacion) {
-        Optional<Producto> result = productoService.getProductoById(productoId);
+    @PutMapping(value = "/abm", consumes = "multipart/form-data")
+    public ResponseEntity<Producto> modificarProducto(@ModelAttribute ProductoDTO modificacion) {
+        Optional<Producto> result = productoService.getProductoById(modificacion.getId());
         if (result.isPresent()) {
             Optional<Tipo> consulta = tipoRepository.findById(modificacion.getTipo());
             if (consulta.isPresent()) {

@@ -36,12 +36,12 @@ public class ProductoService implements ProductoInterface {
         return productoRepository.findById(productoId);
     }
     //Evite los datos que dependen de las relaciones Genero,Tipo
-    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock) throws ProductoDuplicadoException{
+    public Producto createProducto(String nombre,String descripcion,Blob imagen,Double precio,Float descuento,LocalDate lanzamiento,String desarrolador,Long id_tipo,Integer stock, Boolean flag_destacar) throws ProductoDuplicadoException{
         List<Producto> productos = productoRepository.findByName(nombre);
         Optional<Tipo> consulta = tipoRepository.findById(id_tipo);
         if (productos.isEmpty() && consulta.isPresent()){
             Tipo tipo = consulta.get();
-            return productoRepository.save(new Producto(nombre,descripcion,imagen,precio,descuento,lanzamiento,desarrolador,tipo,stock));
+            return productoRepository.save(new Producto(nombre,descripcion,imagen,precio,descuento,lanzamiento,desarrolador,tipo,stock, flag_destacar));
         }
         throw new ProductoDuplicadoException();
     }

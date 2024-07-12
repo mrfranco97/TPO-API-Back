@@ -42,7 +42,6 @@ public class ProductosController {
         Optional<Producto> result = productoService.getProductoById(productoId);
         if (result.isPresent())
             return ResponseEntity.ok().body(result.get());
-            //return ResponseEntity.ok(result.get());
         return ResponseEntity.noContent().build();
     }
 
